@@ -1,26 +1,50 @@
 @import "tailwindcss";
 
+@theme {
+  /* Menghubungkan font Manrope dari layout.tsx ke Tailwind */
+  --font-manrope: var(--font-manrope);
+
+  /* Menambahkan warna utama */
+  --color-primary: #5044e5;
+}
+
+/* Menambahkan fitur Dark Mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Mengatur font default untuk seluruh aplikasi */
+  font-family: var(--font-manrope), ui-sans-serif, system-ui;
+  font-weight: 500;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* --- LOGIKA KURSOR --- */
+
+/* 1. Hilangkan kursor secara global di level root */
+html {
+  cursor: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 2. Pastikan di Desktop kursor hilang di SEMUA elemen interaktif */
+@media (min-width: 768px) {
+  body,
+  a,
+  button,
+  input,
+  textarea,
+  [role="button"] {
+    cursor: none !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 3. Kembalikan kursor bawaan di Mobile (Layar Sentuh) */
+/* Karena di HP tidak ada custom kursor, user butuh kursor asli untuk input teks */
+@media (max-width: 767px) {
+  html,
+  body,
+  a,
+  button,
+  input,
+  textarea {
+    cursor: auto !important;
+  }
 }
